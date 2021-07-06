@@ -12,6 +12,13 @@
 </head>
 
 <body style="background-color: #454d55; color: #fff">
+    {% if recommend == 1 %}
+    <button style="font-size : 30px;" class="btn btn-dark" type="button"
+        onclick="location.href='?board={{board}}&recommend={{0}}&page={{page}}'">모든글 보기</button>
+    {% else %}
+    <button style="font-size : 30px;" class="btn btn-dark" type="button"
+        onclick="location.href='?board={{board}}&recommend={{1}}&page={{page}}'">개념글 보기</button>
+    {% endif %}
     <table class="table table-dark table-striped">
         <tbody>
         <tr>
@@ -24,14 +31,24 @@
         
         {% for index in datas %}
        
-            <tr style="cursor: pointer;"onclick="location.href='/read?board={{board}}&pid={{index.id}}'">
+            <tr style="cursor: pointer; height: 24px;"onclick="location.href='/read?board={{board}}&pid={{index.id}}'">
                  
                 <td> {{index.id}} </td>
                 <td> 
-                    {% if index.image_available %}
-                        <img src="{{ url_for('static', filename='image/sp-lst-img.png') }}" />
+                    {% if index.isrecommend %}
+                        {% if index.isimage %}
+                            <img style="width:24px;" src="{{ url_for('static', filename='image/sp-lst-recoimg.png') }}" />
+                        {% else %}
+                            <img style="width:24px;" src="{{ url_for('static', filename='image/sp-lst-recotxt.png') }}" />
+                        {% endif %}
+                    {% elif index.isdcbest %}
+                        <img style="width:24px;" src="{{ url_for('static', filename='image/sp-lst-best.png') }}" />
+                    {% elif index.ishit %}
+                        <img style="width:24px;" src="{{ url_for('static', filename='image/sp-lst-hit.png') }}" />
+                    {% elif index.isimage}
+                        <img style="width:24px;" src="{{ url_for('static', filename='image/sp-lst-img.png') }}" />
                     {% else %}
-                        <img src="{{ url_for('static', filename='image/sp-lst-msg.png') }}" />
+                        <img style="width:24px;" src="{{ url_for('static', filename='image/sp-lst-msg.png') }}" />
                     {% endif %}
 
                     {{index.title}}

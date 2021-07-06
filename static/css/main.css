@@ -9,3 +9,6 @@ div.taskbar_box {
 	padding: 10px;
 	
 }
+td {
+	padding: 0.35rem !important;
+}
