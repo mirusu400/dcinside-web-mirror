@@ -44,7 +44,12 @@
             <tr>
                 
                 <td>
-                    {{comment.contents}}
+                    {% if comment.dccon != None %}
+                        <img src="{{comment.dccon}}" style="width:100px; height:100px;" />
+                    {% else %}
+                        {{comment.contents}}
+                    {% endif %}
+                    
                 </td>
                 <td>
                     {{comment.author}}

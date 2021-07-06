@@ -58,7 +58,8 @@ def peek(iterable):
     return first, itertools.chain((first,), iterable)
 
 class DocumentIndex:
-    __slots__ = ["id", "subject", "title", "board_id", "has_image", "author", "time", "view_count", "comment_count", "voteup_count", "document", "comments", "isimage, isrecommend, isdcbest, ishit"]
+    __slots__ = ["id", "subject", "title", "board_id", "has_image", "author", "time", "view_count", "comment_count", "voteup_count",
+            "document", "comments", "isimage", "isrecommend", "isdcbest", "ishit"]
     def __init__(self, id, board_id, title, has_image, author, time, view_count, comment_count, voteup_count, document, comments, subject, isimage, isrecommend, isdcbest, ishit):
         self.id = id
         self.board_id = board_id
@@ -272,9 +273,9 @@ class API:
                             if i.get("data-original") or (not i.get("src","").startswith("https://nstatic") and
                                 not i.get("src", "").startswith("https://img.iacstatic.co.kr") and i.get("src"))],
                     html= lxml.html.tostring(doc_content, encoding=str),
-                    view_count= int(parsed.xpath("//ul[@class='ginfo2']")[1][0].text.strip().split()[1]),
-                    voteup_count= int(parsed.xpath("//span[@id='recomm_btn']")[0].text.strip()),
-                    votedown_count= int(parsed.xpath("//span[@id='nonrecomm_btn']")[0].text.strip()),
+                    view_count= int(parsed.xpath("//ul[@class='ginfo2']")[1][0].text.strip().split()[1].replace(",","")),
+                    voteup_count= int(parsed.xpath("//span[@id='recomm_btn']")[0].text.replace(",","").strip()),
+                    votedown_count= int(parsed.xpath("//span[@id='nonrecomm_btn']")[0].text.strip().replace(",","")),
                     logined_voteup_count= int(parsed.xpath("//span[@id='recomm_btn_member']")[0].text.strip()),
                     comments= lambda: self.comments(board_id, document_id),
                     time= self.__parse_time(time)

@@ -1,6 +1,7 @@
 import asyncio
 import dc_api
 import base64
+import requests
 MAX_PAGE = 31
 async def async_read(api_id, board):
     data = {}
@@ -17,10 +18,14 @@ async def async_read(api_id, board):
             
         }
         async for com in doc.comments():
+            dccon = None
+            if com.dccon != None:
+                dccon = "data:image/gif;base64," + base64.b64encode(requests.get(com.dccon).content).decode('utf-8')
             t = {
                 "time": com.time,
                 "contents": com.contents,
                 "author": com.author,
+                "dccon": dccon,
             }
             comments.append(t)
         for img in doc.images:
@@ -43,7 +48,10 @@ async def async_index(page, board, recommend):
                 "comment_count": item.comment_count,
                 "voteup_count": item.voteup_count,
                 "view_count": item.view_count,
-                "image_available": item.image_available
+                "isimage": item.isimage,
+                "isrecommend": item.isrecommend,
+                "isdcbest": item.isdcbest,
+                "ishit": item.ishit
             }
             data.append(tdata)
     return data
