@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
     <script src="{{ url_for('static', filename='javascript/bootstrap.js') }}"></script>
     <title>Naver</title>
 
@@ -23,11 +24,18 @@
         
         {% for index in datas %}
        
-            <tr>
+            <tr style="cursor: pointer;"onclick="location.href='/read?board={{board}}&pid={{index.id}}'">
                  
                 <td> {{index.id}} </td>
-                <td> <a href="/read?board={{board}}&pid={{index.id}}"> {{index.title}}
-                    <span style="float:right">[{{index.comment_count}}] {{index.voteup_count}}</span></a></td>
+                <td> 
+                    {% if index.image_available %}
+                        <img src="{{ url_for('static', filename='image/sp-lst-img.png') }}" />
+                    {% else %}
+                        <img src="{{ url_for('static', filename='image/sp-lst-msg.png') }}" />
+                    {% endif %}
+
+                    {{index.title}}
+                    <span style="float:right">[{{index.comment_count}}] {{index.voteup_count}}</span></td>
                     
                 <td> {{index.author}} </td>
                 <td> {{index.time}}</td>
@@ -37,9 +45,30 @@
         {% endfor %}
         </tbody>
     </table>
-    {% if page != 1 %}
-        <a href="?board={{board}}&recommend={{recommend}}&page={{page-1}}">이전</a>
-    {% endif %}
-    <a href="?board={{board}}&recommend={{recommend}}&page={{page+1}}">다음</a>
+    <div class='taskbar_box' width="90%">
+        <form method="get" action="index.php">
+            {% if page != 1 %}
+            <button style="font-size : 30px;" class="btn btn-dark btn-lg" type="button"
+                onclick="location.href='?board={{board}}&recommend={{recommend}}&page={{page-1}}'">이전</button>
+            {% else %}
+            <button style="font-size : 30px;" class="btn btn-dark btn-lg" type="button"
+                onclick="alert('end of page!')">이전</button>
+            {% endif %}
+            <button style="font-size : 30px;" class="btn btn-dark btn-lg" type="button"
+                onclick="location.href='?board={{board}}&recommend={{recommend}}&page={{page+1}}'">다음</button>
+        </form>
+    
+    
+        <!-- Legacy Codes
+    	<a onclick href='index.php?page=<?PHP echo (($page - 1  > 1) ? $page - 1 : 1); ?>'>◀이전</a>
+    	<a><b><?PHP echo $page; ?></b></a>
+    	<a onclick href='index.php?page=<?PHP echo $page + 1; ?>'>▶다음</a>
+    	
+    	<a onclick href='index.php?page=1'>목록</a>
+    	-->
+    </div>
+    <div style="position:absolute;">
+        
+    </div>
 </body>
 </html>

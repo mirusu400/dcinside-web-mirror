@@ -7,10 +7,9 @@ _json = {}
 async def run():
     global _json
     async with dc_api.API() as api:
-        _json = await api.gallery()
+        async for i in api.board(board_id="raycity", num=10):
+            print(i.title)
+            print(i.image_available)
         
 
 asyncio.run(run())
-print(_json)
-with open("gallerys.json", "w", encoding="utf-8") as f:
-    json.dump(_json, f, ensure_ascii=False, indent=4)

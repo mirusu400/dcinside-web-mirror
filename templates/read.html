@@ -35,22 +35,27 @@
             {% endfor %}
             {{data.html | safe}}
         </div>
-        Comment 개수 : {{data.comment_count}}
+        Comment 개수 : {{ comments|length }}
         <br />
-        <div>
+        <table class="table table-dark table-bordered">
+
             {% for comment in comments %}
-            <div style="margin: 5px; border:1px solid black;">
+            <tr>
                 
-        
-                {{comment.contents}}
-                <span style="float:right;">
-                    {{comment.time}}
+                <td>
+                    {{comment.contents}}
+                </td>
+                <td>
                     {{comment.author}}
-                    </span>
-                <br />
-            </div>
+                </td>
+                <td>
+                    {{comment.time}}    
+                </td>
+
+            </tr>
             {% endfor %}
-        </div>
+
+        </table>
         <div>
             <button onclick="history.back()">Back</button>
         </div>

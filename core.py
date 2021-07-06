@@ -14,6 +14,7 @@ async def async_read(api_id, board):
             "time": doc.time,
             "voteup_count": doc.voteup_count,
             "html": doc.html,
+            
         }
         async for com in doc.comments():
             t = {
@@ -41,7 +42,8 @@ async def async_index(page, board, recommend):
                 "time": item.time,
                 "comment_count": item.comment_count,
                 "voteup_count": item.voteup_count,
-                "view_count": item.view_count
+                "view_count": item.view_count,
+                "image_available": item.image_available
             }
             data.append(tdata)
     return data
