@@ -1,44 +1,30 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Naver</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <script src="{{ url_for('static', filename='javascript/bootstrap.js') }}"></script>
+    <title>Naver</title>
 
 </head>
 
-<body>
-    <table>
+<body style="background-color: #454d55; color: #fff">
+    갤러리 리스트
+    <table class="table table-dark table-striped">
         <tbody>
-        <tr>
-            <td> 번호 </td>
-            <td> 제목 </td>
-            <td> 작성자 </td>
-            <td> 작성시각</td>
-        </tr>
-            
-        
-        {% for index in datas %}
-       
-            <tr>
-                 
-                <td> {{index.id}} </td>
-                <td> <a href="/read?board={{board}}&pid={{index.id}}"> {{index.title}}
-                    <span style="float:right">[{{index.comment_count}}] {{index.voteup_count}}</span></a></td>
-                    
-                <td> {{index.author}} </td>
-                <td> {{index.time}}</td>
+            {% for item in gallerys %}
 
+            <tr style="cursor: pointer;"onclick="location.href='/board?board={{item[1]}}&recommend=0&page=1'">
+                    <td> {{item[0]}} 갤러리 </td>
+                    <td> {{item[1]}}</td>
             </tr>
-        
-        {% endfor %}
+
+            {% endfor %}
         </tbody>
     </table>
-    {% if page != 1 %}
-        <a href="?board={{board}}&page={{page-1}}">이전</a>
-    {% endif %}
-    <a href="?board={{board}}&page={{page+1}}">다음</a>
 </body>
+
 </html>

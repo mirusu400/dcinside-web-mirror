@@ -2,55 +2,58 @@
 
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>디시</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <script src="{{ url_for('static', filename='javascript/bootstrap.js') }}"></script>
+    <title>naver</title>
 
 </head>
 
-<body>
-    <div>
-        <h2>
-            {{data.title}}
-        </h2>
-        
-    </div>
-    <div>
-        <div style="float: left; border:1px solid black;">
-            글작성자: {{data.author}}
-        </div>
-        <div style="float: left; margin-left: 20px; border:1px solid black;">
-            작성시각: {{data.time}}
-        </div>
-    </div>
-    <br />
-    <div>
-        {% for image in images %}
-       
-            <img src="data:image/png;base64,{{image}}" />
-        
-        {% endfor %}
-        {{data.html | safe}}
-    </div>
-    Comment 개수 : {{data.comment_count}}
-    <br />
-    <div>
-        {% for comment in comments %}
-        <div style="margin: 5px; border:1px solid black;">
+<body style="background-color: #454d55; color: #fff">
+    <div class="container" >
+        <div style="margin-top: 15px; border:1px solid black;">
+            <h2>
+                {{data.title}}
+            </h2>
             
-       
-            {{comment.contents}}
-            <span style="float:right;">
-                {{comment.time}}
-                {{comment.author}}
-                </span>
-            <br />
-         </div>
-        {% endfor %}
-    </div>
-    <div>
-        <button onclick="history.back()">Back</button>
+        </div>
+        <div class="row">
+            <div class="col-sm" style="float: left; border:1px solid black;">
+                글작성자: {{data.author}}
+            </div>
+            <div class="col-sm" style="float: left; margin-left: 20px; border:1px solid black;">
+                작성시각: {{data.time}}
+            </div>
+        </div>
+        <br />
+        <div>
+            {% for image in images %}
+        
+                <img src="data:image/png;base64,{{image}}" />
+            
+            {% endfor %}
+            {{data.html | safe}}
+        </div>
+        Comment 개수 : {{data.comment_count}}
+        <br />
+        <div>
+            {% for comment in comments %}
+            <div style="margin: 5px; border:1px solid black;">
+                
+        
+                {{comment.contents}}
+                <span style="float:right;">
+                    {{comment.time}}
+                    {{comment.author}}
+                    </span>
+                <br />
+            </div>
+            {% endfor %}
+        </div>
+        <div>
+            <button onclick="history.back()">Back</button>
+        </div>
     </div>
 </body>
 </html>
