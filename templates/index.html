@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Naver</title>
+
+</head>
+
+<body>
+    <table>
+        <tbody>
+        <tr>
+            <td> 번호 </td>
+            <td> 제목 </td>
+            <td> 작성자 </td>
+            <td> 작성시각</td>
+        </tr>
+            
+        
+        {% for index in datas %}
+       
+            <tr>
+                 
+                <td> {{index.id}} </td>
+                <td> <a href="/read?board={{board}}&pid={{index.id}}"> {{index.title}}
+                    <span style="float:right">[{{index.comment_count}}] {{index.voteup_count}}</span></a></td>
+                    
+                <td> {{index.author}} </td>
+                <td> {{index.time}}</td>
+
+            </tr>
+        
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if page != 1 %}
+        <a href="?board={{board}}&page={{page-1}}">이전</a>
+    {% endif %}
+    <a href="?board={{board}}&page={{page+1}}">다음</a>
+</body>
+</html>
