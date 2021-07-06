@@ -5,6 +5,7 @@ import base64
 import json
 from core import *
 from flask import Flask, render_template, request
+from bs4 import BeautifulSoup,Tag
 
 loop = asyncio.get_event_loop()
 app = Flask(__name__)
@@ -42,6 +43,15 @@ def read():
     pid = int(request.args.get("pid", 0))
     board = str(request.args.get("board", "airforce"))
     data, comments, images = loop.run_until_complete(async_read(pid, board))
+    # Parse soup, for image replation
+    soup=BeautifulSoup(data["html"],'html.parser')
+    idx = 0
+    for i in soup.find_all("img", "lazy"):
+        src = "data:image/png;base64," + images[idx]
+        i["src"] = src
+        idx += 1
+
+    data["html"] = str(soup)
     return render_template('/read.html', data=data, comments=comments, images=images, board=board)
 
 
