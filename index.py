@@ -14,15 +14,27 @@ gallerys=[]
 @app.route("/")
 def index():
     global gallerys
-    query = str(request.args.get("board", "None"))
-    if query != "None":
-        tgallerys=[]
-        for item in gallerys:
-            if query in item[0]:
-                tgallerys.append(item)
-        return render_template('/index.html', gallerys=tgallerys)
+    global gallerys_miner_game
+    global gallerys_miner_digital_it
+    board = str(request.args.get("board", "None"))
+    search = str(request.args.get("search", "None"))
+    tgallerys = []
+    sgallerys = None
+
+    if "game" in board:
+        sgallerys = gallerys_miner_game
+    elif "digital" in board or "it" in board:
+        sgallerys = gallerys_miner_digital_it
     else:
-        return render_template('/index.html', gallerys=gallerys)
+        sgallerys = gallerys
+
+    if search != "None":
+        for item in sgallerys:
+            if search in item[0]:
+                tgallerys.append(item)
+    else:
+        tgallerys = sgallerys
+    return render_template('/index.html', gallerys=tgallerys)
         
 # 공군갤 airforce
 # 야갤 baseball_new10
@@ -59,6 +71,10 @@ def read():
 if __name__ == '__main__':
     with open("gallerys.json", "r", encoding="utf-8") as f:
         gallerys = list(json.load(f).items())
+    with open("gallerys_miner_digital_it.json", "r", encoding="utf-8") as f:
+        gallerys_miner_digital_it = list(json.load(f).items())
+    with open("gallerys_miner_game.json", "r", encoding="utf-8") as f:
+        gallerys_miner_game = list(json.load(f).items())
 
     app.run(debug=True, host="0.0.0.0", port=8080)
     

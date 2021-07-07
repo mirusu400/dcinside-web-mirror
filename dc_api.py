@@ -149,6 +149,38 @@ class API:
         await self.close()
     async def watch(self, board_id):
         pass
+    async def gallery_miner(self, category="게임", name=None):
+        urllist = {
+            "여성":"3", "생물":"4", "이슈":"5", "여행/풍경":"6", "음식":"7",
+            "디지털/IT":"8", "합성":"9", "정부/기관":"10", "수능":"11", "취미":"12", "학술":"13",
+            "교육":"14", "교통/운송":"15", "패션":"16", "밀리터리":"17", "성인":"18",
+            "생활":"19", "직업":"20", "게임":"21", "국내방송":"22", "음악":"23", "스포츠":"24",
+            "스포츠스타":"25", "연예":"26", "대학":"27", "정치인/유명인":"28", "성공/계발":"29", "지역":"30", "해외방송":"31",
+            "질문":"33", "기타":"34", "기업":"35", "쇼핑/장터":"37", "미디어":"38",
+            "만화/애니":"39", "건강/심리":"40", "금융/재테크":"41", "공무원":"42",
+        }
+        url = "https://m.dcinside.com/mcategory/" + urllist[category]
+        gallerys={}
+        lis = []
+        
+        async with self.session.get(url) as res:
+            text = await res.text()
+            parsed = lxml.html.fromstring(text)
+        for i in parsed.xpath('/html/body/div/div/div/section[3]/ul/li'):
+            lis.append(i)
+        for i in parsed.xpath('//*[@id="base-div"]/ul/li'):
+            lis.append(i)
+        for i in lis:
+            e = i[0]
+            board_name = e.text
+            board_id = e.get("href").split("/")[-1]
+            if name:
+                if name in board_name:
+                    gallerys[board_name] = board_id
+            else:
+                gallerys[board_name] = board_id
+        return gallerys
+
     async def gallery(self, name=None):
         url = "https://m.dcinside.com/galltotal"
         gallerys={}
@@ -169,6 +201,7 @@ class API:
     async def board(self, board_id, num=-1, start_page=1, recommend=False, document_id_upper_limit=None, document_id_lower_limit=None, is_minor=False):
         page = start_page
         while num:
+            text = ""
             if recommend:
                 url = "https://m.dcinside.com/board/{}?recommend=1&page={}".format(board_id, page)
             else:
@@ -176,6 +209,8 @@ class API:
             async with self.session.get(url) as res:
                 text = await res.text()
                 parsed = lxml.html.fromstring(text)
+            if "등록된 게시물이 없습니다." in text:
+                break
             doc_headers = (i[0] for i in parsed.xpath("//ul[contains(@class, 'gall-detail-lst')]/li") if not i.get("class", "").startswith("ad"))
             for doc in doc_headers:
                 document_id = doc[0].get("href").split("/")[-1].split("?")[0]

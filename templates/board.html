@@ -63,7 +63,7 @@
         </tbody>
     </table>
     <div class='taskbar_box' width="90%">
-        <form method="get" action="index.php">
+            <button class="btn btn-dark btn-lg" onclick="history.back()">뒤로가기</button>
             {% if page != 1 %}
             <button style="font-size : 30px;" class="btn btn-dark btn-lg" type="button"
                 onclick="location.href='?board={{board}}&recommend={{recommend}}&page={{page-1}}'">이전</button>
@@ -73,7 +73,6 @@
             {% endif %}
             <button style="font-size : 30px;" class="btn btn-dark btn-lg" type="button"
                 onclick="location.href='?board={{board}}&recommend={{recommend}}&page={{page+1}}'">다음</button>
-        </form>
     
     
         <!-- Legacy Codes

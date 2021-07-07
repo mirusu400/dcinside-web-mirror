@@ -4,12 +4,16 @@ import asyncio
 import dc_api
 import json
 _json = {}
+
 async def run():
     global _json
     async with dc_api.API() as api:
-        async for i in api.board(board_id="raycity", num=10):
+        # _json = await api.gallery_miner()
+        # print(a)
+        async for i in api.board(board_id="lightemittingdiode", num=10):
             print(i.title)
-            print(i.image_available)
         
 
 asyncio.run(run())
+# with open("gallerys_miner_game.json", "w", encoding="utf-16") as f:
+#     json.dump(_json, f, indent=4, ensure_ascii=False)
