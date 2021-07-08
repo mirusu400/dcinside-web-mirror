@@ -10,6 +10,12 @@ from bs4 import BeautifulSoup,Tag
 loop = asyncio.get_event_loop()
 app = Flask(__name__)
 gallerys=[]
+with open("gallerys.json", "r", encoding="utf-8") as f:
+    gallerys = list(json.load(f).items())
+with open("gallerys_miner_digital_it.json", "r", encoding="utf-8") as f:
+    gallerys_miner_digital_it = list(json.load(f).items())
+with open("gallerys_miner_game.json", "r", encoding="utf-8") as f:
+    gallerys_miner_game = list(json.load(f).items())
 
 @app.route("/")
 def index():
@@ -69,12 +75,6 @@ def read():
 
 
 if __name__ == '__main__':
-    with open("gallerys.json", "r", encoding="utf-8") as f:
-        gallerys = list(json.load(f).items())
-    with open("gallerys_miner_digital_it.json", "r", encoding="utf-8") as f:
-        gallerys_miner_digital_it = list(json.load(f).items())
-    with open("gallerys_miner_game.json", "r", encoding="utf-8") as f:
-        gallerys_miner_game = list(json.load(f).items())
 
     app.run(debug=True, host="0.0.0.0", port=8080)
     
