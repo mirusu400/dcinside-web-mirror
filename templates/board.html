@@ -30,8 +30,7 @@
             
         
         {% for index in datas %}
-       
-            <tr style="cursor: pointer; height: 24px;"onclick="location.href='/read?board={{board}}&pid={{index.id}}'">
+            <tr style="cursor: pointer; height: 24px;" class="tr-gallery" onclick="location.href='/read?board={{board}}&pid={{index.id}}'">
                  
                 <td> {{index.id}} </td>
                 <td> 
